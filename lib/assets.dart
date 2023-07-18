@@ -1,3 +1,4 @@
+/// Asset class provide the path to the assets that will be used in the avatar
 const category = [
   "BODY",
   "EYES",
@@ -21,6 +22,19 @@ const clothingColor = [
   0xFFFB344F,
   0xFFFF64C8,
   0xFFAE0BFF,
+];
+
+/// Colors that will be used in picking color for the accessory category
+const accessoryColor = [
+  0xFF000066,
+  0xFFDBDBE6,
+  0xFF2384F5,
+  0xFF80C43B,
+  0xFFFFCA00,
+  0xFFFB344F,
+  0xFFFF64C8,
+  0xFFAE0BFF,
+  0x00000000,
 ];
 
 /// Colors that will be used in picking color for the facial hair category
@@ -123,6 +137,7 @@ const accessoryAssets = [
   "assets/avatar/accessories/glasses-01.svg",
   "assets/avatar/accessories/glasses-02.svg",
   "assets/avatar/accessories/glasses-03.svg",
+  "assets/avatar/accessories/glasses-04.svg",
   "",
 ];
 

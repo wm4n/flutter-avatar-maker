@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:flutter_avatar_maker/assets.dart' as assets;
 import 'package:get/get.dart';
 
 enum HairType {
@@ -117,6 +120,50 @@ class AvatarMakerController extends GetxController {
     _selectedAccessoryColor.value = value;
     update(["avatar_accessory"]);
   }
+
+  /// Function that executes randomize() starting from fast and gradually slowing down for a given time interval
+  void randomizeForInterval(int timeInterval) {
+    final interval = timeInterval / 100;
+    for (var i = 0; i < 500;) {
+      Future.delayed(Duration(milliseconds: (interval * i).toInt()), () {
+        randomize();
+      });
+      if (i < 150) {
+        i += 4;
+      } else if (i < 300) {
+        i += 8;
+      } else {
+        i += 12;
+      }
+    }
+  }
+
+  void randomize() {
+    body = _randomInt(0, assets.bodyAssets.length - 1);
+    hairType = _randomInt(0, 1) == 0 ? HairType.short : HairType.long;
+    if (selectedHairType == HairType.short) {
+      shortHair = _randomInt(0, assets.shortHairAssets.length - 1);
+    } else {
+      longHair = _randomInt(0, assets.longHairAssets.length - 1);
+    }
+    eyes = _randomInt(0, assets.eyesAssets.length - 1);
+    nose = _randomInt(0, assets.noseAssets.length - 1);
+    mouth = _randomInt(0, assets.mouthAssets.length - 1);
+    facialHair = _randomInt(0, assets.facialHairAssets.length - 1);
+    facialHairColor = _randomInt(0, assets.facialHairColor.length - 1);
+    hat = _randomInt(0, assets.hatAssets.length - 1);
+    clothing = _randomInt(0, assets.clothingAssets.length - 1);
+    clothingColor = _randomInt(0, assets.clothingColor.length - 1);
+    accessory = _randomInt(0, assets.accessoryAssets.length - 1);
+    accessoryColor = _randomInt(0, assets.accessoryColor.length - 1);
+    update();
+  }
+
+  int _randomInt(int min, int max) {
+    return (min + (max - min) * _random.nextDouble()).toInt();
+  }
+
+  final _random = Random();
 
   AvatarMakerController();
 }

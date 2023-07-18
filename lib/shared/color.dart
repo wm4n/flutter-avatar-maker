@@ -8,4 +8,6 @@ abstract class AppColorTheme {
   static const Color lightGrey = Color(0xFFA9A9A9);
 
   static const Color white = Color(0xFFFFFFFF);
+
+  static const Color primaryColor = Colors.blue;
 }
