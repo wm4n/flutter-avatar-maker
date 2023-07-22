@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_avatar_maker/assets.dart' as assets;
+import 'package:flutter_avatar_maker/shared/background_shape.dart';
 import 'package:get/get.dart';
 
 enum HairType {
@@ -119,6 +120,20 @@ class AvatarMakerController extends GetxController {
   set accessoryColor(int value) {
     _selectedAccessoryColor.value = value;
     update(["avatar_accessory"]);
+  }
+
+  final _selectedBackgroundColor = 0.obs;
+  get selectedBackgroundColor => _selectedBackgroundColor.value;
+  set backgroundColor(int value) {
+    _selectedBackgroundColor.value = value;
+    update(["avatar_background_color", "avatar_background"]);
+  }
+
+  final _selectedBackgroundShape = BackgroundShape.circle.obs;
+  get selectedBackgroundShape => _selectedBackgroundShape.value;
+  set backgroundShape(BackgroundShape value) {
+    _selectedBackgroundShape.value = value;
+    update(["avatar_background_shape", "avatar_background"]);
   }
 
   /// Function that executes randomize() starting from fast and gradually slowing down for a given time interval

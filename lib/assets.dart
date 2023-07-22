@@ -1,3 +1,5 @@
+import 'package:flutter_avatar_maker/shared/background_shape.dart';
+
 /// Asset class provide the path to the assets that will be used in the avatar
 const category = [
   "BODY",
@@ -9,10 +11,11 @@ const category = [
   "FACIAL_HAIR",
   "CLOTHING",
   "HAT",
-  "ACCESSORY"
+  "ACCESSORY",
+  "BACKGROUND",
 ];
 
-/// Colors that will be used in picking color for the clothing category
+/// Colors that will be used in picking color for the clothing
 const clothingColor = [
   0xFF000066,
   0xFFDBDBE6,
@@ -24,7 +27,7 @@ const clothingColor = [
   0xFFAE0BFF,
 ];
 
-/// Colors that will be used in picking color for the accessory category
+/// Colors that will be used in picking color for the accessory
 const accessoryColor = [
   0xFF000066,
   0xFFDBDBE6,
@@ -37,7 +40,7 @@ const accessoryColor = [
   0x00000000,
 ];
 
-/// Colors that will be used in picking color for the facial hair category
+/// Colors that will be used in picking color for the facial hair
 const facialHairColor = [
   0xFF59332A, // (Brown)
   0xFF726658, // (Dark Brown)
@@ -49,6 +52,18 @@ const facialHairColor = [
   0xFFA0522D, // (Sienna)
   0xFF928770, // (Taupe)
   0xFF604439, // (Dark Taupe)
+];
+
+/// Colors that will be used in picking color for the avatar background
+const backgroundColor = [
+  0xFF9292B3,
+  0xFFF5F5F8,
+  0xFF9BC5FF,
+  0xFFC2E3A1,
+  0xFFFFEA99,
+  0xFFFD9DAA,
+  0xFFFFC1E9,
+  0xFFE5B1FF,
 ];
 
 const bodyAssets = [
@@ -158,4 +173,10 @@ const hatAssets = [
   "assets/avatar/head/accessories/turban.svg",
   "assets/avatar/head/accessories/winter-cap.svg",
   "",
+];
+
+const backgroundAssets = [
+  BackgroundShape.circle,
+  BackgroundShape.square,
+  BackgroundShape.roundedSquare,
 ];
