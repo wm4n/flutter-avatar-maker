@@ -91,7 +91,9 @@ class AvatarMakerController extends GetxController {
   get selectedHat => _selectedHat.value;
   set hat(int value) {
     _selectedHat.value = value;
-    update(["avatar_hat"]);
+    // Here notify both hat and hair because showing hat should hide hair hence
+    // notify hair to get hair to update
+    update(["avatar_hat", "avatar_hair"]);
   }
 
   final _selectedClothing = 0.obs;

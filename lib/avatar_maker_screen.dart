@@ -10,6 +10,7 @@ import 'package:flutter_avatar_maker/shared/color.dart';
 import 'package:flutter_avatar_maker/shared/text_style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AvatarMakerScreen extends StatefulWidget {
@@ -293,8 +294,8 @@ class _AvatarMakerScreenState extends State<AvatarMakerScreen> {
     return "${now.year}${now.month}${now.day}${now.hour}${now.minute}${now.second}${now.millisecond}${now.microsecond}";
   }
 
-  /// function that saves the avatar to the device
-  void saveAvatar() async {
+  /// function that saves the avatar to the application folder
+  void _saveAvatarToAppFolder() async {
     RenderRepaintBoundary boundary =
         _avatarKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage(pixelRatio: 2.0);
@@ -307,6 +308,50 @@ class _AvatarMakerScreenState extends State<AvatarMakerScreen> {
     await file.writeAsBytes(pngBytes);
   }
 
+  /// function that saves the avatar to the device gallery
+  void _saveAvatarToGallery() async {
+    RenderRepaintBoundary boundary =
+        _avatarKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    ui.Image image = await boundary.toImage(pixelRatio: 2.0);
+    ByteData? byteData =
+        await (image.toByteData(format: ui.ImageByteFormat.png));
+    if (byteData != null) {
+      final result =
+          await ImageGallerySaver.saveImage(byteData.buffer.asUint8List());
+      print(result);
+    }
+  }
+
+  void _buildSaveAvatarOptions() async {
+    await showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            height: 200,
+            child: Column(
+              children: [
+                ListTile(
+                  onTap: () {
+                    _saveAvatarToAppFolder();
+                    Get.back();
+                  },
+                  leading: const Icon(Icons.save_alt),
+                  title: const Text("Save to app folder"),
+                ),
+                ListTile(
+                  onTap: () {
+                    _saveAvatarToGallery();
+                    Get.back();
+                  },
+                  leading: const Icon(Icons.save),
+                  title: const Text("Save to gallery"),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     AvatarMakerController controller = Get.put(AvatarMakerController());
@@ -316,7 +361,8 @@ class _AvatarMakerScreenState extends State<AvatarMakerScreen> {
         backgroundColor: AppColorTheme.primaryColor,
         centerTitle: true,
         actions: [
-          IconButton(onPressed: saveAvatar, icon: const Icon(Icons.save))
+          IconButton(
+              onPressed: _buildSaveAvatarOptions, icon: const Icon(Icons.save))
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -368,14 +414,6 @@ class _AvatarMakerScreenState extends State<AvatarMakerScreen> {
                                               : null),
                                   child: Stack(
                                     children: [
-                                      // GetBuilder<AvatarMakerController>(
-                                      //     id: "avatar_background_shape",
-                                      //     builder: (controller) {
-                                      //       return backgroundShapeWidget(
-                                      //           context,
-                                      //           controller
-                                      //               .selectedBackgroundShape);
-                                      //     }),
                                       GetBuilder<AvatarMakerController>(
                                           id: "avatar_body",
                                           builder: (controller) {
@@ -464,22 +502,28 @@ class _AvatarMakerScreenState extends State<AvatarMakerScreen> {
                                       GetBuilder<AvatarMakerController>(
                                           id: "avatar_hair",
                                           builder: (controller) {
-                                            return Positioned(
-                                                top: 15,
-                                                child: Align(
-                                                    alignment:
-                                                        Alignment.topCenter,
-                                                    child: SvgPicture.asset(
-                                                        controller.selectedHairType ==
-                                                                HairType.short
-                                                            ? shortHairAssets[
-                                                                controller
-                                                                    .selectedShortHair]
-                                                            : longHairAssets[
-                                                                controller
-                                                                    .selectedLongHair],
-                                                        width: 180,
-                                                        height: 195)));
+                                            return hatAssets[
+                                                        controller
+                                                            .selectedHat] ==
+                                                    ""
+                                                ? Positioned(
+                                                    top: 15,
+                                                    child: Align(
+                                                        alignment: Alignment
+                                                            .topCenter,
+                                                        child: SvgPicture.asset(
+                                                            controller.selectedHairType ==
+                                                                    HairType
+                                                                        .short
+                                                                ? shortHairAssets[
+                                                                    controller
+                                                                        .selectedShortHair]
+                                                                : longHairAssets[
+                                                                    controller
+                                                                        .selectedLongHair],
+                                                            width: 180,
+                                                            height: 195)))
+                                                : const SizedBox.shrink();
                                           }),
                                       GetBuilder<AvatarMakerController>(
                                           id: "avatar_facial_hair",
